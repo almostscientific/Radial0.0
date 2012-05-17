@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link href="style.css" rel="stylesheet" type="text/css">
+        <link type="text/css" href="jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+    </head>
+    <body>
+        <div  id="slider"></div>
+        <div  id="slider2"></div>
+        <div  id="slider3"></div>
+        <div  id="slider4"></div>
+        <div  id="slider5"></div>
+<!--         <div  id="slider6"></div> -->
+    </body>
+    <!-- <canvas id="canvas1" width=document.width height=document.height></canvas> -->
+    <!--                 <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script> -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
+    <script type="text/javascript" src="js/toxiclibs.js"></script>
+    <script type="text/javascript" src="js/processing.js"></script>
+    <script type="text/javascript" src="js/Three.js"></script>
+    <script type="text/javascript" src="js/myToxi.js"></script>
+<!--     <canvas data-processing-sources="radial0.3.js wedge.js"></canvas> -->
+     <canvas data-processing-sources="radial0.4.js roundWedge.js"></canvas>
+
+    <script type="text/javascript" >
+        //     SpokeNumber
+        $(function() {
+            $("#slider").slider();
+        });
+        var ival=80;
+        $("#slider").slider({
+            min : 10,
+            max : 90,
+            value:ival
+            
+        });
+        //     jitter/radius
+        $(function() {
+            $("#slider2").slider();
+        });
+        $("#slider2").slider({
+            min : 0,
+            max : 100,
+            value:20
+        });
+        //         inside
+        $(function() {
+            $("#slider3").slider();
+        });
+        $("#slider3").slider({
+            min : 5,
+            max : 800,
+            value:200
+        });
+        //         outsider
+        $(function() {
+            $("#slider4").slider();
+        });
+
+        $("#slider4").slider({
+            min : 10,
+            max : 700,
+            value:50
+        });
+        //         amnt
+        $(function() {
+            $("#slider5").slider();
+        });
+
+        $("#slider5").slider({
+            min : 0,
+            max : 360,
+            value:45
+        });
+        // //         baseW
+        // $(function() {
+            // $("#slider5").slider();
+        // });
+// 
+        // $("#slider5").slider({
+            // min : 10,
+            // max : 100,
+            // value:10
+        // });
+
+    </script>
+</html>
