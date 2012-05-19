@@ -103,19 +103,22 @@ function updateWeges() {
                 
                 if(mouseButton == LEFT && keyPressed) {
                     if(keyCode == SHIFT) {
-                        weges[thisWege].outRad++;
-                    }
-                    if(keyCode == CONTROL) {
-                        weges[thisWege].inRad++;
-                    }
+                        if(!weges[thisWege].atMaxRad)
+{                        weges[thisWege].outRad++;
+}                    }
+                    // if(keyCode == CONTROL) {
+                        // weges[thisWege].inRad++;
+                    // }
                 }
                 if(mouseButton == RIGHT && keyPressed) {
                     if(keyCode == SHIFT) {
+                                                if(!weges[thisWege].atMinRad)
+{
                         weges[thisWege].outRad--;
-                    }
-                    if(keyCode == CONTROL) {
-                        weges[thisWege].inRad--;
-                    }
+}                    }
+                    // if(keyCode == CONTROL) {
+                        // weges[thisWege].inRad--;
+                    // }
                 }
 
             }

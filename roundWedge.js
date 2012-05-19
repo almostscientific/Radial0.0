@@ -14,6 +14,9 @@ function roundWedge(_id, _theta, _innerRadius, _outterRadius, _innerCornerRadius
     this.valid = true;
     this.minTheta
     this.atMinTheta = false;
+    this.atMinRad = false;
+    this.atMaxRad =false;
+    this.maxRad=300;
 
     this.updateTheta = function(mod) {
         //returns how much more there is to remove
@@ -46,10 +49,28 @@ function roundWedge(_id, _theta, _innerRadius, _outterRadius, _innerCornerRadius
             this.atMinTheta = false;
         }
     }
+    
+
+    this.constrainOutRad = function() {
+        println(this.outRad - this.inRad + " " + this.outCorRad * 2);
+        if((this.outRad - this.inRad) <= this.outCorRad * 2 ||(this.outRad - this.inRad) <0 ) {
+            this.outRad = (this.outCorRad * 2)+this.inRad;
+            this.atMinRad = true;
+        } else {
+            this.atMinRad = false;
+        }
+        if(this.outRad > this.maxRad) {
+            this.atMaxRad = true;
+        } else {
+            this.atMaxRad = false;
+        }
+    }
+
 
     this.buildPoly = function() {
         offset.set(new Vec2D(0, 0));
         this.constrainTheta();
+        this.constrainOutRad();
         if(this.valid) {
 
             this.poly = new Polygon2D();
