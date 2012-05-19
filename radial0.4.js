@@ -8,7 +8,6 @@ var steps, jitter, length, gap, baseTheta;
 var slider1;
 var width, height;
 var mouse, offset;
-// var spokes = new Array();
 var spokePolys = new Array();
 var weges = new Array();
 var wedge;
@@ -38,13 +37,11 @@ gfx.line(new Line2D(new Vec2D(1000,0).add(offset),new Vec2D(-1000,0).add(offset)
 
     totRot = 0;
     for(var i = 0; i < weges.length; i++) {
-        // println(i);
         weges[i].buildPoly();
         weges[i].position(totRot);
         weges[i].checkIfSelected();
         weges[i].render();
         totRot += weges[i].theta;
-        // println(totRot);
     };
     updateWeges();
 
@@ -52,46 +49,58 @@ gfx.line(new Line2D(new Vec2D(1000,0).add(offset),new Vec2D(-1000,0).add(offset)
 
 
 function updateWeges() {
+    var fracChange,m,idx;
     if(mousePressed) {
         for(var i = 0; i < weges.length; i++) {
             if(weges[i].selected) {
                 var thisWege = weges[i].id;
-                if(mouseButton == LEFT && !keyPressed) {                                
-                    var subAmt = -0.5;
-                    var m = 0;
+                if(mouseButton == LEFT && !keyPressed) {        
                     if(thisWege == 0) {
-                        // weges[weges.length - 1].updateTheta(-0.5);
-                        while(subAmt<0){
-                            subAmt=weges[weges.length - 1+m].updateTheta(subAmt)
+                        fracChange = -0.5;
+                        m = 0;
+                        while(fracChange < 0) {
+                            idx=(weges.length - 1 + m);
+                            if(idx>=weges.length-1){
+                                idx=idx%(weges.length-1);
+                            }
+                            fracChange = weges[idx].updateTheta(fracChange);
                             m++;
                         }
-
                     } else {
-                        // weges[(thisWege - 1)].updateTheta(-0.5);
-                        while(subAmt<0){
-                            subAmt=weges[(thisWege - 1+m)].updateTheta(subAmt)
+                        fracChange = -0.5;
+                        m = 0;
+                        while(fracChange < 0) {
+                            var idx=(thisWege - (1 + m));
+                            if(idx<0){
+                                idx=weges.length+idx;
+                            }
+                            fracChange = weges[idx].updateTheta(fracChange);
                             m++;
                         }
                     }
-                    var i=0;
-                    while(weges[(thisWege + 1) % weges.length].updateTheta(-0.5) != 0){
-                        i++;
+                    fracChange = -0.5;
+                    m = 0;
+                    while(fracChange < 0) {
+                        fracChange = weges[(thisWege + 1 + m) % weges.length].updateTheta(fracChange);
+                        m++;
                     }
-                    // weges[(thisWege + 1) % weges.length].updateTheta(-0.5);
-
                     weges[thisWege].updateTheta(1);
-
-
-                }
+                    }
 
                 if(mouseButton == RIGHT && !keyPressed) {
+                    println(weges[thisWege].theta);
+                    println(weges[thisWege].atMinTheta.toString());
+                    if(weges[thisWege].atMinTheta==false){
+                    fracChange=0.5;
+                    idx=thisWege==0 ? weges.length-1 : thisWege-1;                    
+                    weges[idx].updateTheta(fracChange);
+                    
+                    idx=thisWege==weges.length-1 ? 0 : thisWege+1;
+                    weges[idx].updateTheta(fracChange);
                     weges[thisWege].updateTheta(-1);
-                    if(thisWege == 0) {
-                    } else {
-                        weges[thisWege - 1].updateTheta(0.5);
                     }
-                    weges[(thisWege + 1) % weges.length].updateTheta(0.5);
                 }
+                
                 if(mouseButton == LEFT && keyPressed) {
                     if(keyCode == SHIFT) {
                         weges[thisWege].outRad++;
@@ -117,7 +126,6 @@ function updateWeges() {
 
 
 function getGUIVals() {
-    // println("ack");
     steps = $("#slider").slider("value");
     r = $("#slider2").slider("value");
     length = $("#slider3").slider("value");
