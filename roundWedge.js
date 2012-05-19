@@ -52,7 +52,7 @@ function roundWedge(_id, _theta, _innerRadius, _outterRadius, _innerCornerRadius
     
 
     this.constrainOutRad = function() {
-        println(this.outRad - this.inRad + " " + this.outCorRad * 2);
+        // println(this.outRad - this.inRad + " " + this.outCorRad * 2);
         if((this.outRad - this.inRad) <= this.outCorRad * 2 ||(this.outRad - this.inRad) <0 ) {
             this.outRad = (this.outCorRad * 2)+this.inRad;
             this.atMinRad = true;

@@ -88,8 +88,8 @@ function updateWeges() {
                     }
 
                 if(mouseButton == RIGHT && !keyPressed) {
-                    println(weges[thisWege].theta);
-                    println(weges[thisWege].atMinTheta.toString());
+                    // println(weges[thisWege].theta);
+                    // println(weges[thisWege].atMinTheta.toString());
                     if(weges[thisWege].atMinTheta==false){
                     fracChange=0.5;
                     idx=thisWege==0 ? weges.length-1 : thisWege-1;                    
