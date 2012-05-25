@@ -3,6 +3,7 @@
  *///// THis works
 
 ToxiclibsSupport gfx;
+var adsfads;
 var v, poly, k;
 var steps, jitter, length, gap, baseTheta;
 var slider1;
