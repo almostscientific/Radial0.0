@@ -17,7 +17,12 @@ function roundWedge(_id, _theta, _innerRadius, _outterRadius, _innerCornerRadius
     this.atMinRad = false;
     this.atMaxRad =false;
     this.maxRad=300;
+    this.outRadMod=0;
 
+this.update = function(){
+    this.inRad=gap;
+    this.outRad=length+this.outRadMod;
+}
     this.updateTheta = function(mod) {
         //returns how much more there is to remove
         if(mod < 0) {//if we are subtractin

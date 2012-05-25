@@ -11,6 +11,7 @@ var mouse, offset;
 var spokePolys = new Array();
 var weges = new Array();
 var wedge;
+var splitTheta=180;
 void setup() {
     getGUIVals();
     height = $(window).height();
@@ -18,7 +19,7 @@ void setup() {
     size(width, height);
     gfx = new ToxiclibsSupport(this);
     offset = new Vec2D(width / 2, height / 2);
-    widths = new Array(90,45,45,90,45,45);
+    widths = new Array(90,1,22.5,45,90,45,45);
 
     dynamicSetup();
 
@@ -26,14 +27,14 @@ void setup() {
     var totRot = 0;
 
     for(var i = 0; i < widths.length; i++) {
-        weges[i] = new roundWedge(i,widths[i],gap,length,r,r);
+        weges[i] = new roundWedge(i,widths[i],gap,length,r/2,r);
 
     };
 }
 void draw() {
     dynamicSetup();
-gfx.line(new Line2D(new Vec2D(0,1000).add(offset),new Vec2D(0,-1000).add(offset) ));
-gfx.line(new Line2D(new Vec2D(1000,0).add(offset),new Vec2D(-1000,0).add(offset) ));
+// gfx.line(new Line2D(new Vec2D(0,1000).add(offset),new Vec2D(0,-1000).add(offset) ));
+// gfx.line(new Line2D(new Vec2D(1000,0).add(offset),new Vec2D(-1000,0).add(offset) ));
 
     totRot = 0;
     for(var i = 0; i < weges.length; i++) {
@@ -41,19 +42,37 @@ gfx.line(new Line2D(new Vec2D(1000,0).add(offset),new Vec2D(-1000,0).add(offset)
         weges[i].position(totRot);
         weges[i].checkIfSelected();
         weges[i].render();
+        weges[i].update();
         totRot += weges[i].theta;
     };
-    updateWeges();
+    if(totRot!=360){
+        weges[0].theta = totRot>360 ? weges[0].theta-(totRot-360) : weges[0].theta+(360-totRot);
+    }
+
+    mouseWeges();
+    checkSplitWeges();
 
 }
 
+function checkSplitWeges(){
+          for(var i = 0; i < weges.length; i++) {
+            if(weges[i].theta> splitTheta){
+                var newWegeA=new roundWedge(i,splitTheta/2,gap,length,r/2,r);
+                newWegeA.outRadMod=weges[i].outRadMod;
+                var newWegeB=new roundWedge(i,splitTheta/2,gap,length,r/2,r);
+                newWegeB.outRadMod=weges[i].outRadMod;
+                weges.splice(i,1,newWegeA,newWegeB);
+            }
+}
+  
+}
 
-function updateWeges() {
+function mouseWeges() {
     var fracChange,m,idx;
     if(mousePressed) {
         for(var i = 0; i < weges.length; i++) {
             if(weges[i].selected) {
-                var thisWege = weges[i].id;
+                var thisWege = i;//weges[i].id;
                 if(mouseButton == LEFT && !keyPressed) {        
                     if(thisWege == 0) {
                         fracChange = -0.5;
@@ -104,7 +123,7 @@ function updateWeges() {
                 if(mouseButton == LEFT && keyPressed) {
                     if(keyCode == SHIFT) {
                         if(!weges[thisWege].atMaxRad)
-{                        weges[thisWege].outRad++;
+{                        weges[thisWege].outRadMod++;
 }                    }
                     // if(keyCode == CONTROL) {
                         // weges[thisWege].inRad++;
@@ -114,7 +133,7 @@ function updateWeges() {
                     if(keyCode == SHIFT) {
                                                 if(!weges[thisWege].atMinRad)
 {
-                        weges[thisWege].outRad--;
+                        weges[thisWege].outRadMod--;
 }                    }
                     // if(keyCode == CONTROL) {
                         // weges[thisWege].inRad--;
