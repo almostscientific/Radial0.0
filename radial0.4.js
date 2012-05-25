@@ -3,7 +3,6 @@
  *///// THis works
 
 ToxiclibsSupport gfx;
-var adsfads;
 var v, poly, k;
 var steps, jitter, length, gap, baseTheta;
 var slider1;
@@ -52,6 +51,8 @@ void draw() {
 
     mouseWeges();
     checkSplitWeges();
+    
+    extrudedPolygon(weges[0].poly, 100, true);
 
 }
 
